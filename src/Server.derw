@@ -1,0 +1,38 @@
+import "./Server_kernel" exposing (Route, Server, Method)
+import "./Server_kernel" as kernel
+
+import "../derw-packages/derw-lang/stdlib/src/Task" exposing (Task, asTask, runTask)
+
+exposing (Route, Server, Method)
+
+makeRoute: string -> Method -> (void -> string) -> Route
+makeRoute url method fn =
+    { url: url
+    , method: method
+    , fn: fn
+    }
+
+serve: number -> List Route -> Task void
+serve port routes =
+    let
+        serverConfig: Server
+        serverConfig = {
+            port: port,
+            routes: routes
+        }
+    in
+        (\_ -> kernel.serve serverConfig)
+            |> asTask
+
+hello: any -> string
+hello a? =
+    "Hello world"
+
+routes: List Route
+routes =
+    [ makeRoute "/" "GET" hello ]
+
+main: any
+main =
+    serve 3000 routes
+        |> runTask
