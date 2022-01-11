@@ -1,0 +1,7 @@
+{
+    "name": "server",
+    "exposing": [],
+    "dependencies": {
+        "derw-lang/stdlib": "main"
+    }
+}
